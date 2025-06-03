@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { CiShop } from "react-icons/ci";
 import { Link, useNavigate } from "react-router-dom";
 
 interface CartItem {
