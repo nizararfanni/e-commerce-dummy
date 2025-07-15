@@ -15,7 +15,7 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
-    <div className="w-[300px] md:w-80 h-[450px] border-black border-2 rounded-md hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] bg-white">
+    <div className="w-[300px] md:w-80 h-[450px] border-black border-2 rounded-md hover:shadow-[18px_18px_0px_rgba(0,0,0,1)] shadow-gray-400 bg-gray-300">
       <div className="block cursor-pointer">
         <article className="w-full h-full p-4 flex flex-col justify-between">
           {/* Bagian Gambar */}

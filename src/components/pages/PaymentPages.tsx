@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import PaymentsButton from "../fragments/PaymentsButton";
 
 const PaymentPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -21,7 +22,11 @@ const PaymentPage: React.FC = () => {
 
   // State untuk error dan status pembayaran
   const [error, setError] = useState<string | null>(null);
-  const [cardInfo, setCardInfo] = useState({ name: "", cardNumber: "" });
+  const [cardInfo, setCardInfo] = useState({
+    first_name: "",
+    email: "",
+    phone: "",
+  });
   const [paymentStatus, setPaymentStatus] = useState<
     "success" | "failed" | null
   >(null);
@@ -34,7 +39,7 @@ const PaymentPage: React.FC = () => {
     e.preventDefault();
 
     // Jika input kosong, hanya tampilkan error, tapi data produk tetap ada
-    if (!cardInfo.name || !cardInfo.cardNumber) {
+    if (!cardInfo.first_name || !cardInfo.email) {
       setError("Nama dan nomor kartu harus diisi");
       setPaymentStatus(null); // Reset status pembayaran
       return; // Hentikan eksekusi fungsi tanpa mengubah state lainnya
@@ -55,7 +60,7 @@ const PaymentPage: React.FC = () => {
         {/* Tampilan Produk */}
         <div className="flex flex-col items-center mb-4">
           <img
-            src={productInfo.image}
+            src={productInfo?.image || "https://via.placeholder.com/150"}
             alt={productInfo.title}
             className="w-24 h-24 object-cover rounded-md mb-2"
           />
@@ -65,34 +70,45 @@ const PaymentPage: React.FC = () => {
 
         {/* Form Pembayaran */}
         <form onSubmit={handlePayment}>
-          <label className="block mb-2 text-sm font-medium">
-            Nama Pemilik Kartu
+          <label className="block mb-2 text-sm font-medium" id="name">
+            full name
+            <input
+              type="text"
+              name="first_name"
+              value={cardInfo.first_name}
+              onChange={handleChange}
+              className="w-full p-2 border rounded-md mb-4"
+              placeholder="Masukkan nama"
+            />
           </label>
-          <input
-            type="text"
-            name="name"
-            value={cardInfo.name}
-            onChange={handleChange}
-            className="w-full p-2 border rounded-md mb-4"
-            placeholder="Masukkan nama"
-          />
 
-          <label className="block mb-2 text-sm font-medium">Nomor Kartu</label>
+          <label className="block mb-2 text-sm font-medium">email</label>
           <input
-            type="text"
-            name="cardNumber"
-            value={cardInfo.cardNumber}
+            type="email"
+            name="email"
+            value={cardInfo.email}
             onChange={handleChange}
             className="w-full p-2 border rounded-md mb-4"
             placeholder="XXXX-XXXX-XXXX-XXXX"
           />
+          <label className="block mb-2 text-sm font-medium">nomor hp</label>
+          <input
+            type="text"
+            name="phone"
+            value={cardInfo.phone}
+            onChange={handleChange}
+            className="w-full p-2 border rounded-md mb-4"
+            placeholder="92589258352"
+          />
 
-          <button
+          <PaymentsButton
+            cartTotal={parseInt(productInfo.price)}
+            cardInfo={cardInfo}
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
           >
             Bayar Sekarang
-          </button>
+          </PaymentsButton>
         </form>
 
         {/* Notifikasi Error */}
