@@ -23,7 +23,7 @@ export const UseGetAllProduct = () => {
       try {
         setIsLoading(true);
         const response = await axios.get("https://fakestoreapi.com/products");
-        console.log("isi data", response.data);
+        // console.log("isi data", response.data);
         setDetailProduct(response.data);
       } catch (error) {
         console.log("error cuy", error);
