@@ -5,10 +5,11 @@ import DetailPages from "./components/pages/DetailPages";
 import PaymentPage from "./components/pages/PaymentPages";
 import Header from "./components/fragments/home/Header";
 import CartList from "./components/fragments/cart/CartList";
+import OnSuccess from "./components/payments/OnSuccess";
 
 const App: React.FC = () => {
   return (
-    <div>
+    <div className="min-h-screen bg-gray-700">
       <BrowserRouter>
       <Header></Header>
         <Routes>
@@ -16,6 +17,7 @@ const App: React.FC = () => {
           <Route path="/detail/:id" element={<DetailPages />} />
           <Route path="/bayar" element={<PaymentPage />} />
           <Route path="/cart" element={< CartList/>} />
+          <Route path="/payments" element={< OnSuccess/>} />
         </Routes>
       </BrowserRouter>
     </div>
