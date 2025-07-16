@@ -1,25 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
 import PaymentsButton from "../fragments/PaymentsButton";
 
+type Product = {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+  title: string;
+};
+
 const PaymentPage: React.FC = () => {
-  const [searchParams] = useSearchParams();
-
-  // Simpan query params dalam state supaya data tidak hilang saat terjadi re-render
-  const [productInfo, setProductInfo] = useState({
-    title: "",
-    price: "",
-    image: "",
-  });
-
-  useEffect(() => {
-    setProductInfo({
-      title: searchParams.get("title") ?? "Unknown Product",
-      price: searchParams.get("price") ?? "0",
-      image: searchParams.get("image") ?? "https://via.placeholder.com/150",
-    });
-  }, [searchParams]);
-
+  const [products, setProducts] = useState<Product[]>([]);
   // State untuk error dan status pembayaran
   const [error, setError] = useState<string | null>(null);
   const [cardInfo, setCardInfo] = useState({
@@ -31,6 +23,12 @@ const PaymentPage: React.FC = () => {
     "success" | "failed" | null
   >(null);
 
+  useEffect(() => {
+    const product = localStorage.getItem("cartItems");
+    if (!product) return;
+    setProducts(JSON.parse(product));
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCardInfo({ ...cardInfo, [e.target.name]: e.target.value });
   };
@@ -41,11 +39,12 @@ const PaymentPage: React.FC = () => {
     // Jika input kosong, hanya tampilkan error, tapi data produk tetap ada
     if (!cardInfo.first_name || !cardInfo.email) {
       setError("Nama dan nomor kartu harus diisi");
-      setPaymentStatus(null); // Reset status pembayaran
-      return; // Hentikan eksekusi fungsi tanpa mengubah state lainnya
+      // Reset status pembayaran
+      setPaymentStatus(null);
+      return;
     }
-
-    setError(null); // Hapus error jika input valid
+    // Hapus error jika input valid
+    setError(null);
 
     // Simulasi sukses pembayaran
     const isPaymentSuccessful = Math.random() > 0.5;
@@ -53,19 +52,31 @@ const PaymentPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6">
+    <div className="min-h-screen flex items-center justify-center bg-gray-700">
+      <div className="w-full max-w-md bg-gray-300 shadow-md rounded-lg p-6">
         <h2 className="text-xl font-semibold mb-4 text-center">Pembayaran</h2>
 
         {/* Tampilan Produk */}
         <div className="flex flex-col items-center mb-4">
-          <img
-            src={productInfo?.image || "https://via.placeholder.com/150"}
-            alt={productInfo.title}
-            className="w-24 h-24 object-cover rounded-md mb-2"
-          />
-          <h3 className="text-lg font-medium">{productInfo.title}</h3>
-          <p className="text-sm text-gray-600">Harga: Rp{productInfo.price}</p>
+          {products.map((product, index) => {
+            const totalPrice = Math.round(
+              product.price * product.quantity * 1000
+            ).toLocaleString("id-ID");
+            return (
+              <div
+                key={index}
+                className="mb-4 flex justify-center flex-col items-center"
+              >
+                <img
+                  src={product?.image || "https://via.placeholder.com/150"}
+                  alt={product.title}
+                  className="w-24 h-24 object-cover rounded-md mb-2"
+                />
+                <h3 className="text-lg font-medium">{product.title}</h3>
+                <p className="text-sm text-gray-600">Harga: Rp{totalPrice}</p>
+              </div>
+            );
+          })}
         </div>
 
         {/* Form Pembayaran */}
@@ -102,7 +113,10 @@ const PaymentPage: React.FC = () => {
           />
 
           <PaymentsButton
-            cartTotal={parseInt(productInfo.price)}
+            cartTotal={products.reduce(
+              (total, product) => total + product.price * product.quantity,
+              0
+            )}
             cardInfo={cardInfo}
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
@@ -118,7 +132,10 @@ const PaymentPage: React.FC = () => {
         {paymentStatus === "success" && (
           <div className="mt-4 bg-green-100 text-green-700 py-2 px-4 rounded-md text-center">
             Pembayaran berhasil untuk produk{" "}
-            <strong>{productInfo.title}</strong>! 🎉
+            <strong>
+              {products.map((product) => product.title).join(", ")}
+            </strong>
+            ! 🎉
           </div>
         )}
         {paymentStatus === "failed" && (

@@ -9,10 +9,11 @@ export default function PaymentsButton({ cartTotal, cardInfo }: any) {
   const handleBuy = async () => {
     setIsLoading(true);
     try {
+      const integerAmount = Math.round(cartTotal * 1000);
       // generate token dari backend
       const { data } = await axios.post("http://localhost:4000/token", {
         orderId: `ORDER-` + Date.now(),
-        grossAmount: cartTotal,
+        grossAmount: integerAmount,
         first_name: cardInfo.first_name,
         email: cardInfo.email,
         phone: cardInfo.phone,
