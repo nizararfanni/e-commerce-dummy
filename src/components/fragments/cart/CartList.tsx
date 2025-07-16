@@ -1,23 +1,24 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UseQuantity, UseQuantityDispatch } from "../../../hooks/UseCartItems";
-
+import { FaTrash } from "react-icons/fa";
+import { FcCheckmark } from "react-icons/fc";
 
 const CartList = () => {
   const dispatch = UseQuantityDispatch();
   const cartContextItems = UseQuantity() || [];
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   //fungsi buat buy product
   const handleBuy = () => {
-    // if (cartItems.length > 0) {
-    //   navigate(
-    //     `/bayar?title=${cartItems[0].title}&price=${cartItems[0].price}&image=${cartItems[0].image}`
-    //   );
-    // } else {
-    //   alert("Keranjang kosong!");
-    // }
+    if (!cartContextItems.length) return;
+    //simpan data  ke local storage
+    localStorage.setItem("cartItems", JSON.stringify(cartContextItems));
+    navigate("/bayar");
   };
+  {
+    console.log("cart context items", cartContextItems);
+  }
 
   return (
     <div className="min-h-screen bg-gray-700 text-white flex flex-col items-center py-8">
@@ -38,52 +39,12 @@ const CartList = () => {
               />
               <div className="flex-1 mx-4">
                 <h2 className="text-lg font-bold">{item.title}</h2>
-                <p className="text-gray-500">${item.price}</p>
+                <p className="text-white">${item.price}</p>
               </div>
               <div className="flex flex-col mx-4">
                 <div>
-                  Qty:{" "}
-                  {cartContextItems.find((qtyi) => qtyi.id === item.id)
-                    ?.quantity ?? 1}
-                </div>
-                <div>
-                  total: Rp.{" "}
-                  {(item.price * (item.quantity ?? 1)).toLocaleString("id-ID")}
-                </div>
-              </div>
-              <div className="flex flex-col  ">
-                <button
-                  className="text-red-500 hover:underline border-b-2 border-white"
-                  onClick={() =>
-                    dispatch({
-                      type: "deleted_product",
-                      payload: { ...item, id: String(item.id) },
-                    })
-                  }
-                >
-                  Remove
-                </button>
-                <button
-                  className="text-red-500 hover:underline"
-                  onClick={handleBuy}
-                >
-                  Buy
-                </button>
-                <div>
-                  {" "}
                   <button
-                    className="text-blue-500 hover:underline"
-                    onClick={() =>
-                      dispatch({
-                        type: "add_quantity",
-                        payload: { ...item, id: String(item.id) },
-                      })
-                    }
-                  >
-                    +
-                  </button>
-                  <button
-                    className="text-blue-500 hover:underline"
+                    className="mr-2 text-2xl font-bold"
                     onClick={() =>
                       dispatch({
                         type: "decrese_quantity",
@@ -93,7 +54,44 @@ const CartList = () => {
                   >
                     -
                   </button>
+                  Qty:{" "}
+                  {cartContextItems.find((qtyi) => qtyi.id === item.id)
+                    ?.quantity ?? 1}{" "}
+                  <button
+                    className="mr-2 text-2xl font-bold"
+                    onClick={() =>
+                      dispatch({
+                        type: "add_quantity",
+                        payload: { ...item, id: String(item.id) },
+                      })
+                    }
+                  >
+                    +
+                  </button>
                 </div>
+                <div>
+                  total: Rp.{" "}
+                  {(item.price * (item.quantity ?? 1)).toLocaleString("id-ID")}
+                </div>
+              </div>
+              <div className="flex flex-col  ">
+                <button
+                  className="text-white hover:text-red-500 hover:underline "
+                  onClick={() =>
+                    dispatch({
+                      type: "deleted_product",
+                      payload: { ...item, id: String(item.id) },
+                    })
+                  }
+                >
+                  <FaTrash />
+                </button>
+                <button
+                  className="text-red-500 hover:underline mt-4"
+                  onClick={handleBuy}
+                >
+                  <FcCheckmark />
+                </button>
               </div>
             </div>
           ))}
