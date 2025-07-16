@@ -6,18 +6,21 @@ import PaymentPage from "./components/pages/PaymentPages";
 import Header from "./components/fragments/home/Header";
 import CartList from "./components/fragments/cart/CartList";
 import OnSuccess from "./components/payments/OnSuccess";
+import AboutPage from "./components/pages/AboutPages";
 
 const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-700">
       <BrowserRouter>
-      <Header></Header>
+        <Header></Header>
         <Routes>
           <Route path="/" element={<HomePages />} />
+          <Route path="/products" element={<HomePages />} />
           <Route path="/detail/:id" element={<DetailPages />} />
           <Route path="/bayar" element={<PaymentPage />} />
-          <Route path="/cart" element={< CartList/>} />
-          <Route path="/payments" element={< OnSuccess/>} />
+          <Route path="/cart" element={<CartList />} />
+          <Route path="/payments" element={<OnSuccess />} />
+          <Route path="/about" element={<AboutPage />} />
         </Routes>
       </BrowserRouter>
     </div>
