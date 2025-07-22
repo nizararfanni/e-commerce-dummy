@@ -7,6 +7,7 @@ import Header from "./components/fragments/home/Header";
 import CartList from "./components/fragments/cart/CartList";
 import OnSuccess from "./components/payments/OnSuccess";
 import AboutPage from "./components/pages/AboutPages";
+import AddProducts from "./components/pages/buyer/AddProducts";
 
 const App: React.FC = () => {
   return (
@@ -21,6 +22,7 @@ const App: React.FC = () => {
           <Route path="/cart" element={<CartList />} />
           <Route path="/payments" element={<OnSuccess />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/AddProducts" element={<AddProducts />} />
         </Routes>
       </BrowserRouter>
     </div>

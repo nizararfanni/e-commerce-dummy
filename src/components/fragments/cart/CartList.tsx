@@ -16,9 +16,7 @@ const CartList = () => {
     localStorage.setItem("cartItems", JSON.stringify(cartContextItems));
     navigate("/bayar");
   };
-  {
-    console.log("cart context items", cartContextItems);
-  }
+ 
 
   return (
     <div className="min-h-screen bg-gray-700 text-white flex flex-col items-center py-8">
