@@ -4,7 +4,7 @@ interface Product {
   id: number;
   title: string;
   price: number;
-  image: string;
+  images?: string;
   description: string;
   category: string;
 }
@@ -21,7 +21,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           {/* Bagian Gambar */}
           <figure className="w-full h-1/2 border-black border-b-2">
             <img
-              src={product.image}
+              src={`${import.meta.env.VITE_API_BASE_URL_IMG}/${product.images}`}
               alt={product.title}
               className="w-64 h-64 object-top object-cover"
             />

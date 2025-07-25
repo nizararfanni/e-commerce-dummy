@@ -1,10 +1,11 @@
 import axios from "axios";
+import { useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 interface IFormInput {
   namaProduk: string;
   email: string;
-  photo: string;
+  images: string;
   harga: number;
   deksripsi: string;
   stock: number;
@@ -13,41 +14,55 @@ interface IFormInput {
 const AddProducts = () => {
   const {
     register,
-    handleSubmit,reset,
+    handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
       namaProduk: "",
       email: "",
-      photo: "",
+      images: "",
       harga: 0,
       deksripsi: "",
       stock: 0,
     },
   });
+  const fileRef = useRef<HTMLInputElement | null>(null);
+  const [error, setError] = useState<string>("");
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
-       await axios.post("http://localhost:4000/products", {
-        name: data.namaProduk,
-        email: data.email,
-        images: data.photo || null,
-        price: Number(data.harga),
-        description: data.deksripsi,
-        stock: Number(data.stock),
+      const formData = new FormData();
+
+      formData.append("name", data.namaProduk);
+      formData.append("email", data.email);
+      formData.append("price", data.harga.toString());
+      formData.append("description", data.deksripsi);
+      formData.append("stock", data.stock.toString());
+
+      // ⬅️ Ambil file dari ref
+      const file = fileRef.current?.files?.[0];
+      if (file) {
+        formData.append("images", file); // ⬅️ harus sama dengan upload.single("images")
+      }
+
+      await axios.post("http://localhost:4000/products", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
-      reset()
+
+      reset();
       alert(`Berhasil menambahkan barang! ${data.namaProduk}`);
-
-
     } catch (err: any) {
-      console.log(err.message || "ada kesalhan");
+      setError(err?.response.data.error || "ada kesalahan");
     }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen">
       <form
+        encType="multipart/form-data"
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white max-w-[600px] w-full p-6 rounded space-y-8"
       >
@@ -83,9 +98,13 @@ const AddProducts = () => {
         </label>
 
         {/* Images */}
+        <p className="text-red-600 text-sm font-bold justify-center items-center flex">
+          {error}
+        </p>
         <label htmlFor="images" className="relative block bg-gray-200 rounded">
           <input
-            {...register("photo", { required: "nama harus di isi" })}
+            type="file"
+            ref={fileRef}
             placeholder="sertakan gambar jikaada"
             className="peer mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm p-3"
           />
