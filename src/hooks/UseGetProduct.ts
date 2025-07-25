@@ -22,9 +22,9 @@ export const UseGetAllProduct = () => {
     const getAllProducts = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get("https://fakestoreapi.com/products");
-        // console.log("isi data", response.data);
-        setDetailProduct(response.data);
+        const response = await axios.get("http://localhost:4000/products");
+        console.log("isi data", response.data.products);
+        setDetailProduct(response.data.products);
       } catch (error) {
         console.log("error cuy", error);
       } finally {
@@ -47,7 +47,7 @@ export const UseDetailProduct = (id: number) => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `https://fakestoreapi.com/products/${id}`
+          `http://localhost:4000/products/${id}`
         );
         // console.log("isi data", response.data);
         setDetailProduct(response.data);
