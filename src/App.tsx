@@ -8,6 +8,8 @@ import CartList from "./components/fragments/cart/CartList";
 import OnSuccess from "./components/payments/OnSuccess";
 import AboutPage from "./components/pages/AboutPages";
 import AddProducts from "./components/pages/buyer/AddProducts";
+import TryPages from "./components/pages/TryPages";
+import Login from "./components/fragments/auth/Register";
 
 const App: React.FC = () => {
   return (
@@ -23,6 +25,8 @@ const App: React.FC = () => {
           <Route path="/payments" element={<OnSuccess />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/AddProducts" element={<AddProducts />} />
+          <Route path="/dummy" element={<TryPages />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,1 +1,10 @@
 @import "tailwindcss";
+@theme {
+  --primary: #00e1ef;
+  --secondary: #a6faff;
+  --color-mint-500: oklch(0.72 0.11 178);
+  --color-sky-200: #00e1ef;
+}
+
+
+
