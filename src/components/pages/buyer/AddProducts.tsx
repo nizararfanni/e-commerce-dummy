@@ -2,7 +2,7 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-interface IFormInput {
+type IFormInput = {
   namaProduk: string;
   email: string;
   images: string;
@@ -40,10 +40,10 @@ const AddProducts = () => {
       formData.append("description", data.deksripsi);
       formData.append("stock", data.stock.toString());
 
-      // ⬅️ Ambil file dari ref
+      // 
       const file = fileRef.current?.files?.[0];
       if (file) {
-        formData.append("images", file); // ⬅️ harus sama dengan upload.single("images")
+        formData.append("images", file); 
       }
 
       await axios.post("http://localhost:4000/products", formData, {

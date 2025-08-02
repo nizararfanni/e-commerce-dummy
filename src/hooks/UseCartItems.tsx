@@ -9,6 +9,8 @@ interface CartItem {
   id: string;
   quantity?: number;
   price: number;
+  images: string;
+  name:string,
   [key: string]: any;
 }
 
