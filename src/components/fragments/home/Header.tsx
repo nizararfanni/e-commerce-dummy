@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [cartItems, setCartItems] = useState(null);
+  const [showSearch, setShowSearch] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -17,7 +18,7 @@ const Header: React.FC = () => {
   }, [cartItems]);
 
   return (
-    <header className="bg-gray-200/90 backdrop-blur-lg  text-black py-4 sticky top-0 z-50">
+    <header className="bg-mint-500  backdrop-blur-lg  text-black py-4 sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center px-4">
         {/* Logo */}
         <h1 className="text-2xl font-bold text-[#A6FAFF] hover:text-[#00E1EF] text-shadow-md ">
@@ -45,6 +46,22 @@ const Header: React.FC = () => {
               >
                 Beranda
               </a>
+            </li>
+            <li>
+              {showSearch ? (
+                <div>
+                  <input
+                    type="search"
+                    placeholder="Cari Produk"
+                    onBlur={() => setShowSearch(false)}
+                    className="h-12 border-black border-2 p-2.5 bg-[#A6FAFF] hover:bg-[#79F7FF] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:bg-[#00E1EF] rounded-md"
+                  />
+                </div>
+              ) : (
+                <button onClick={() => setShowSearch(!showSearch)}>
+                  <img src="" alt="serach" />
+                </button>
+              )}
             </li>
             <li>
               <a

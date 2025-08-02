@@ -6,7 +6,7 @@ type Product = {
   name: string;
   price: number;
   quantity: number;
-  image: string;
+  images: string;
   title: string;
 };
 
@@ -51,6 +51,10 @@ const PaymentPage: React.FC = () => {
     setPaymentStatus(isPaymentSuccessful ? "success" : "failed");
   };
 
+  // {
+  //   console.log(products);
+  // }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-700">
       <div className="w-full max-w-md bg-gray-300 shadow-md rounded-lg p-6">
@@ -68,11 +72,13 @@ const PaymentPage: React.FC = () => {
                 className="mb-4 flex justify-center flex-col items-center"
               >
                 <img
-                  src={product?.image || "https://via.placeholder.com/150"}
+                  src={`${import.meta.env.VITE_API_BASE_URL_IMG}/${
+                    product?.images
+                  }`}
                   alt={product.title}
                   className="w-24 h-24 object-cover rounded-md mb-2"
                 />
-                <h3 className="text-lg font-medium">{product.title}</h3>
+                <h3 className="text-lg font-medium">{product.name}</h3>
                 <p className="text-sm text-gray-600">Harga: Rp{totalPrice}</p>
               </div>
             );

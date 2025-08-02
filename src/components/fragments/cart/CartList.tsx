@@ -16,7 +16,10 @@ const CartList = () => {
     localStorage.setItem("cartItems", JSON.stringify(cartContextItems));
     navigate("/bayar");
   };
- 
+
+  // {
+  //   console.log(cartContextItems);
+  // }
 
   return (
     <div className="min-h-screen bg-gray-700 text-white flex flex-col items-center py-8">
@@ -31,12 +34,12 @@ const CartList = () => {
               className="flex items-center justify-between border-b pb-4"
             >
               <img
-                src={item.image}
-                alt={item.title}
+                src={`${import.meta.env.VITE_API_BASE_URL_IMG}/${item.images}`}
+                alt={item.name}
                 className="w-16 h-16 object-cover"
               />
               <div className="flex-1 mx-4">
-                <h2 className="text-lg font-bold">{item.title}</h2>
+                <h2 className="text-lg font-bold">{item.name}</h2>
                 <p className="text-white">${item.price}</p>
               </div>
               <div className="flex flex-col mx-4">
