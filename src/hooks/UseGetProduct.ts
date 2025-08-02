@@ -3,15 +3,14 @@ import { useEffect, useState } from "react";
 
 type Product = {
   id: number;
-  title: string;
+  name: string;
   price: number;
-  image: string;
+  images: string;
   description: string;
   category: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
+
+  rate: number;
+  count: number;
 };
 
 export const UseGetAllProduct = () => {
@@ -50,7 +49,7 @@ export const UseDetailProduct = (id: number) => {
           `http://localhost:4000/products/${id}`
         );
         // console.log("isi data", response.data);
-        setDetailProduct(response.data);
+        setDetailProduct(response.data.data);
       } catch (error) {
         console.log("error cuy", error);
       } finally {
