@@ -4,11 +4,14 @@ import "./index.css";
 import "./App.css";
 import App from "./App.tsx";
 import { CartItemsContextProvider } from "./hooks/UseCartItems.tsx";
+import { AuthContextProvider } from "./hooks/AuthContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <CartItemsContextProvider>
-      <App />
-    </CartItemsContextProvider>
+    <AuthContextProvider>
+      <CartItemsContextProvider>
+        <App />
+      </CartItemsContextProvider>
+    </AuthContextProvider>
   </StrictMode>
 );
