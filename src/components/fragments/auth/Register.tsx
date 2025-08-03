@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 //schema zod
@@ -22,6 +23,7 @@ const signInSchema = z
 type TsignInSchema = z.infer<typeof signInSchema>;
 
 const Register = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState<string | null>(null);
   const {
     register,
@@ -41,6 +43,7 @@ const Register = () => {
       console.log(result.data);
       setUser(result.data.message);
       reset();
+      navigate("/login");
     } catch (error: any) {
       console.error(
         "Error saat register:",
@@ -65,7 +68,7 @@ const Register = () => {
         className="bg-white max-w-[500px] w-full p-6 rounded space-y-8"
       >
         <div className="flex justify-center  items-center font-bold text-xl">
-          <h1>Login Form</h1>
+          <h1>Register Form</h1>
         </div>
         <p className="text-green-400 font-bold text-2xl flex justify-center items-center">
           {user}
@@ -141,7 +144,7 @@ const Register = () => {
             type="submit"
             className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-400 hover:shadow-lg hover:-translate-y-1 transform transition-all duration-300 ease-in-out"
           >
-            login
+            Regsiter
           </button>
         </div>
       </form>
