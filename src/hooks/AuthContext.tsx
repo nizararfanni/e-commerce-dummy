@@ -14,11 +14,7 @@ export const AuthContextProvider = ({
 }) => {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<string | null>(null);
-  useEffect(() => {
-    console.log("token", token);
-    console.log("token", user);
-    
-  }, [token]);
+  useEffect(() => {}, [token]);
   return (
     <AuthContext.Provider value={{ token, setToken, user, setUser }}>
       {children}

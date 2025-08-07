@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import { useAuthContext } from "../../../hooks/AuthContext";
+
 import { useNavigate } from "react-router-dom";
 
 //schema zod
@@ -15,10 +15,9 @@ const signInSchema = z.object({
 type TsignInSchema = z.infer<typeof signInSchema>;
 
 const Login = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   //kirin ke context
-  const { user,token, setUser, setToken } = useAuthContext();
-  
+  // const { user,token, setUser, setToken } = useAuthContext();
 
   const {
     register,
@@ -31,19 +30,28 @@ const Login = () => {
   //hadnle orang register
   const onsubmit = async (data: TsignInSchema) => {
     try {
-      const result = await axios.post("http://localhost:4000/auth/login", {
-        password: data.password,
-        email: data.email,
-      });
+      const result = await axios.post(
+        "http://localhost:4000/auth/login",
+        {
+          password: data.password,
+          email: data.email,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       console.log(result.data);
       //simpan token ke global context
-      setToken(result.data.token);
-      setUser(await result.data.message);
+      // setToken(result.data.token);
+      // setUser(await result.data.message);
+      localStorage.setItem("token", result.data.token);
       reset();
       navigate("/");
     } catch (error: any) {
       console.error("Error saat Login:", error.response?.data || error.message);
-      setError("email", { message: error.response?.data?.message || error.message });
+      setError("email", {
+        message: error.response?.data?.message || error.message,
+      });
     }
   };
   return (
@@ -57,7 +65,7 @@ const Login = () => {
           <h1>Login Form</h1>
         </div>
         <p className="text-green-400 font-bold text-2xl flex justify-center items-center">
-          {user || errors.email?.message || errors.password?.message}
+          {/* {user || errors.email?.message || errors.password?.message} */}
         </p>
         {/* email */}
         <label htmlFor="email" className="relative block bg-gray-200 rounded ">
