@@ -11,6 +11,7 @@ import AddProducts from "./components/pages/buyer/AddProducts";
 import TryPages from "./components/pages/TryPages";
 import Register from "./components/fragments/auth/Register";
 import Login from "./components/fragments/auth/Login";
+import ProfilPages from "./components/pages/ProfilPages";
 
 
 const App: React.FC = () => {
@@ -30,6 +31,7 @@ const App: React.FC = () => {
           <Route path="/dummy" element={<TryPages />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<ProfilPages />} />
         </Routes>
       </BrowserRouter>
     </div>
