@@ -2,11 +2,12 @@ import React from "react";
 
 interface Product {
   id: number;
-  title: string;
+  name: string;
   price: number;
   images?: string;
   description: string;
   category: string;
+  count: number;
 }
 
 interface ProductCardProps {
@@ -22,18 +23,29 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <figure className="w-full h-1/2 border-black border-b-2">
             <img
               src={`${import.meta.env.VITE_API_BASE_URL_IMG}/${product.images}`}
-              alt={product.title}
+              alt={product.name}
               className="w-64 h-64 object-top object-cover"
             />
           </figure>
 
           {/* Bagian Deskripsi */}
-          <div className="px-6 py-5 text-left flex-grow overflow-hidden">
-            <p className="text-base mb-4">{product.category}</p>
-            <h1 className="text-sm mb-4 line-clamp-2">{product.title}</h1>
-            <p className="text-xs mb-4 line-clamp-3 truncate">
-              {product.description}
-            </p>
+          <div className="px-6 py-5 text-[17px] text-left flex-grow overflow-hidden">
+            <div className="mb-2 flex justify-between ">
+              <h1 className=" mb-2 font-semibold line-clamp-2">
+                {product.name}
+              </h1>
+              <p className=" mb-4 text-gray-500">
+                {product.category || "T-Shirt"}
+              </p>
+            </div>
+            <div className="flex items-center justify-between mt-2  text-gray-600">
+              <p className="font-bold text-blue-700">
+                Rp. {product.price.toLocaleString("id-ID")}
+              </p>
+              {product.count >= 0 && (
+                <p className="text-xs text-gray-500">{product.count} dibeli</p>
+              )}
+            </div>
           </div>
         </article>
       </div>
