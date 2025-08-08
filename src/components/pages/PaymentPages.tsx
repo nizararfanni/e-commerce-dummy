@@ -61,25 +61,27 @@ const PaymentPage: React.FC = () => {
         <h2 className="text-xl font-semibold mb-4 text-center">Pembayaran</h2>
 
         {/* Tampilan Produk */}
-        <div className="flex flex-col items-center mb-4">
+        <div className="flex flex-col  mb-4 w-full">
           {products.map((product, index) => {
             const totalPrice = Math.round(
-              product.price * product.quantity * 1000
+              product.price * product.quantity
             ).toLocaleString("id-ID");
             return (
-              <div
-                key={index}
-                className="mb-4 flex justify-center flex-col items-center"
-              >
+              <div key={index} className="mb-4 flex  gap-3 max-w-md">
                 <img
                   src={`${import.meta.env.VITE_API_BASE_URL_IMG}/${
                     product?.images
                   }`}
                   alt={product.title}
-                  className="w-24 h-24 object-cover rounded-md mb-2"
+                  className="w-24 h-24 object-cover rounded-md mb-2 "
                 />
-                <h3 className="text-lg font-medium">{product.name}</h3>
-                <p className="text-sm text-gray-600">Harga: Rp{totalPrice}</p>
+                <div className="flex justify-start flex-1 w-full  flex-col ">
+                  <h3 className="text-sm font-medium">
+                    {" "}
+                    Produk :{product.name.toUpperCase()}
+                  </h3>
+                  <p className="text-sm font-semibold">Harga: Rp{totalPrice}</p>
+                </div>
               </div>
             );
           })}
@@ -124,8 +126,6 @@ const PaymentPage: React.FC = () => {
               0
             )}
             cardInfo={cardInfo}
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
           >
             Bayar Sekarang
           </PaymentsButton>

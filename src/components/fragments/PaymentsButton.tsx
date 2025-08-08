@@ -9,7 +9,7 @@ export default function PaymentsButton({ cartTotal, cardInfo }: any) {
   const handleBuy = async () => {
     setIsLoading(true);
     try {
-      const integerAmount = Math.round(cartTotal * 1000);
+      const integerAmount = Math.round(cartTotal);
       // generate token dari backend
       const { data } = await axios.post("http://localhost:4000/token", {
         orderId: `ORDER-` + Date.now(),
@@ -37,8 +37,15 @@ export default function PaymentsButton({ cartTotal, cardInfo }: any) {
   };
 
   return (
-    <button onClick={handleBuy}>
-      {loading ? "memprosess" : "bayar sekkarang"}
-    </button>
+    <div className="flex flex-col gap-4">
+    
+      <button
+        onClick={handleBuy}
+        type="submit"
+        className="h-12 border-black border-2 p-2.5 bg-[#A6FAFF] hover:bg-[#79F7FF] hover:shadow-[9px_9px_0px_rgba(0,0,0,10)] active:bg-[#00E1EF] rounded-md"
+      >
+        {loading ? "memprosess" : "bayar sekkarang"}
+      </button>
+    </div>
   );
 }
