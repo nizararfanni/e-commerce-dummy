@@ -24,9 +24,22 @@ export default function PaymentsButton({ cartTotal, cardInfo }: any) {
       window.snap.pay(data.token, {
         onSuccess: function (result: any) {
           /* You may add your own implementation here */
-          alert("payment success!");
-          localStorage.setItem("order_detail", JSON.stringify(result));
-          navigate("/payments");
+          try {
+            axios.post("http://localhost:4000/payments", {
+              order_id: result.order_id,
+              fraud_status: result.fraud_status,
+              gross_amount: result.gross_amount,
+              payment_type: result.payment_type,
+              status_message: result.status_message,
+              transaction_id: result.transaction_id,
+              transaction_status: result.transaction_status,
+              transaction_time: result.transaction_time,
+            });
+          } catch (error: any) {
+            console.error("ada kesalahan waktu payment", error.message);
+          }
+          localStorage.setItem("cartItems", JSON.stringify(result));
+          navigate(`/payments/${result.order_id}`);
         },
       });
     } catch (error) {
@@ -38,7 +51,6 @@ export default function PaymentsButton({ cartTotal, cardInfo }: any) {
 
   return (
     <div className="flex flex-col gap-4">
-    
       <button
         onClick={handleBuy}
         type="submit"

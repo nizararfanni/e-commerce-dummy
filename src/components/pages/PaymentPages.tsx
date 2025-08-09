@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PaymentsButton from "../fragments/PaymentsButton";
+import { useSearchParams } from "react-router-dom";
 
 type Product = {
   id: string;
@@ -8,6 +9,9 @@ type Product = {
   quantity: number;
   images: string;
   title: string;
+};
+type ProductType = {
+  mode: "single" | " multi";
 };
 
 const PaymentPage: React.FC = () => {
@@ -22,11 +26,24 @@ const PaymentPage: React.FC = () => {
   const [paymentStatus, setPaymentStatus] = useState<
     "success" | "failed" | null
   >(null);
+  const [urlSearchParams] = useSearchParams();
+  const mode = urlSearchParams.get("mode") as ProductType["mode"];
 
   useEffect(() => {
-    const product = localStorage.getItem("cartItems");
-    if (!product) return;
-    setProducts(JSON.parse(product));
+    //jika ada produk single
+    if (mode === "single") {
+      const singleProduct = localStorage.getItem("singleProduct");
+      if (singleProduct) {
+        const parsedProduct = JSON.parse(singleProduct) as Product;
+        setProducts([parsedProduct]);
+      }
+    } else {
+      const cartItems = localStorage.getItem("cartItems");
+      if (cartItems) {
+        const parsedItems = JSON.parse(cartItems) as Product[];
+        setProducts(parsedItems);
+      }
+    }
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,15 +62,24 @@ const PaymentPage: React.FC = () => {
     }
     // Hapus error jika input valid
     setError(null);
+    //hapus produk
+    localStorage.removeItem("singleProduct");
 
     // Simulasi sukses pembayaran
     const isPaymentSuccessful = Math.random() > 0.5;
     setPaymentStatus(isPaymentSuccessful ? "success" : "failed");
   };
-
-  // {
-  //   console.log(products);
-  // }
+  //harga total
+  const totalPrice = Math.round(
+    products.reduce(
+      (total, product) => total + product.price * product.quantity,
+      0
+    )
+  );
+  const formatIdrTotal = totalPrice.toLocaleString("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  });
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-700">
@@ -61,31 +87,48 @@ const PaymentPage: React.FC = () => {
         <h2 className="text-xl font-semibold mb-4 text-center">Pembayaran</h2>
 
         {/* Tampilan Produk */}
-        <div className="flex flex-col  mb-4 w-full">
+        <div className="flex flex-col mb-4 w-full">
+          {products.length === 0 && (
+            <p className="text-center text-sm text-gray-700">
+              Tidak ada produk untuk dibayar.
+            </p>
+          )}
           {products.map((product, index) => {
-            const totalPrice = Math.round(
-              product.price * product.quantity
-            ).toLocaleString("id-ID");
+            const total = product.price * product.quantity;
+            const imgSrc = product.images
+              ? `${import.meta.env.VITE_API_BASE_URL_IMG}/${product.images}`
+              : product.name;
+
             return (
-              <div key={index} className="mb-4 flex  gap-3 max-w-md">
+              <div key={index} className="mb-4 flex gap-3 max-w-md">
                 <img
-                  src={`${import.meta.env.VITE_API_BASE_URL_IMG}/${
-                    product?.images
-                  }`}
-                  alt={product.title}
-                  className="w-24 h-24 object-cover rounded-md mb-2 "
+                  src={imgSrc}
+                  alt={product.name}
+                  className="w-24 h-24 object-cover rounded-md mb-2"
                 />
-                <div className="flex justify-start flex-1 w-full  flex-col ">
+                <div className="flex justify-start flex-1 w-full flex-col">
                   <h3 className="text-sm font-medium">
-                    {" "}
-                    Produk :{product.name.toUpperCase()}
+                    Produk: {product.name.toUpperCase()}
                   </h3>
-                  <p className="text-sm font-semibold">Harga: Rp{totalPrice}</p>
+                  <p className="text-xs text-gray-600">
+                    Qty: {product.quantity}
+                  </p>
+                  <p className="text-sm font-semibold">
+                    Subtotal {total.toLocaleString("id-ID", { style: "currency", currency: "IDR" })}
+                  </p>
                 </div>
               </div>
             );
           })}
         </div>
+
+        {/* Total */}
+        {products.length > 0 && (
+          <div className="flex justify-between items-center border-t border-gray-400 pt-3 mb-4 text-sm font-semibold">
+            <span>Total</span>
+            <span> {formatIdrTotal}</span>
+          </div>
+        )}
 
         {/* Form Pembayaran */}
         <form onSubmit={handlePayment}>

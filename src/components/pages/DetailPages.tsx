@@ -19,7 +19,9 @@ const DetailPages = () => {
       console.error("Product ID or price invalid");
       return;
     }
-    navigate(`/bayar?productId=${encodeURIComponent(detailProduct.id)}`);
+    //simpan single produk ke local storage
+    localStorage.setItem("singleProduct", JSON.stringify(detailProduct));
+    navigate(`/bayar?mode=single`);
   };
 
   //fungsi untuk nambah ke keranjang
@@ -34,9 +36,6 @@ const DetailPages = () => {
       });
     }
   };
-  {
-    console.log(detailProduct);
-  }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-700">
