@@ -12,6 +12,7 @@ import TryPages from "./components/pages/TryPages";
 import Register from "./components/fragments/auth/Register";
 import Login from "./components/fragments/auth/Login";
 import ProfilPages from "./components/pages/ProfilPages";
+import PaymentStatus from "./components/pages/PaymentsStatus";
 
 
 const App: React.FC = () => {
@@ -26,6 +27,7 @@ const App: React.FC = () => {
           <Route path="/bayar" element={<PaymentPage />} />
           <Route path="/cart" element={<CartList />} />
           <Route path="/payments" element={<OnSuccess />} />
+          <Route path="/payments/:orderId" element={<PaymentStatus />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/AddProducts" element={<AddProducts />} />
           <Route path="/dummy" element={<TryPages />} />
