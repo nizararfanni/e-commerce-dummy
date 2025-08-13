@@ -1,15 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { CiShoppingCart } from "react-icons/ci";
+import { CiSearch, CiShoppingCart } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import { UseGetAllProduct } from "../../../hooks/UseGetProduct";
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [cartItems, setCartItems] = useState(null);
   const [showSearch, setShowSearch] = useState(false);
+  const { product, isLoading } = UseGetAllProduct();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  //filter profuk berdasrkan keywrod
+  const filteredProducts =
+    searchQuery.trim() === ""
+      ? []
+      : product.filter((query) =>
+          query.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
 
   useEffect(() => {
     // Mengambil data keranjang
@@ -17,28 +28,91 @@ const Header: React.FC = () => {
     setCartItems(getCartItems.length);
   }, [cartItems]);
 
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+  console.log(product);
+
   return (
-    <header className="bg-mint-500  backdrop-blur-lg  text-black py-4 sticky top-0 z-50">
+    <header className="bg-white/60 h-20  backdrop-blur-lg  text-black py-4 sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center px-4">
         {/* Logo */}
-        <h1 className="text-2xl font-bold text-[#A6FAFF] hover:text-[#00E1EF] text-shadow-md ">
+        <h1 className="text-2xl  font-bold text-[#A6FAFF] hover:text-[#00E1EF] text-shadow-md ">
           Toko Baju
         </h1>
 
         {/* Menu untuk layar besar */}
         <nav className="hidden md:flex">
-          <ul className="flex space-x-6">
+          <ul className="flex space-x-6 justify-center items-center">
             <li className="relative">
-              <Link
-                to={`/cart`}
-                className="shadow-lg text-shadow-md text-3xl text-gray-900"
-              >
+              <Link to={`/cart`} className=" text-3xl text-gray-900">
                 <CiShoppingCart />
                 <p className="text-sm absolute top-[-3px] right-[-3px] text-red-700 font-bold">
                   {cartItems}
                 </p>
               </Link>
             </li>
+            <li className="flex items-center h-12 relative">
+              {showSearch ? (
+                <div className="relative w-full">
+                  <input
+                    type="search"
+                    placeholder="Cari Produk"
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    value={searchQuery}
+                    onBlur={() => setShowSearch(false)}
+                    className={`border-black border-2 p-2.5 bg-[#A6FAFF] hover:bg-[#79F7FF] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:bg-[#00E1EF] rounded-md transition-all duration-600 ease-in-out ${
+                      showSearch
+                        ? "w-full opacity-100 p-2.5"
+                        : "w-0 opacity-0 p-0 border-0"
+                    }`}
+                  />
+
+                  {filteredProducts.length > 0 && (
+                    <div className="absolute top-full left-0 w-full bg-white border border-gray-300 rounded-md mt-1 shadow-lg max-h-60 overflow-auto z-50">
+                      {filteredProducts.map((p) => (
+                        <Link
+                          key={p.id}
+                          to={`/detail/${p.id}`}
+                          onClick={() => setSearchQuery("")}
+                          className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        >
+                          {/* Gambar produk */}
+                          <img
+                            src={`${import.meta.env.VITE_API_BASE_URL_IMG}/${
+                              p.images
+                            }`}
+                            alt={p.name}
+                            className="w-12 h-12 object-cover rounded"
+                          />
+
+                          {/* Info produk */}
+                          <div className="flex flex-col">
+                            <span className="font-semibold text-gray-800">
+                              {p.name}
+                            </span>
+                            <span className="text-sm text-gray-500">
+                              Rp {p.price.toLocaleString("id-ID")}
+                            </span>
+                            <span className="text-xs text-gray-400">
+                              Stok: {p.stock}
+                            </span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <button
+                  className="text-2xl font-bold text-shadow-md text-black"
+                  onClick={() => setShowSearch(!showSearch)}
+                >
+                  <CiSearch />
+                </button>
+              )}
+            </li>
+
             <li>
               <a
                 href="/"
@@ -47,22 +121,7 @@ const Header: React.FC = () => {
                 Beranda
               </a>
             </li>
-            <li>
-              {showSearch ? (
-                <div>
-                  <input
-                    type="search"
-                    placeholder="Cari Produk"
-                    onBlur={() => setShowSearch(false)}
-                    className="h-12 border-black border-2 p-2.5 bg-[#A6FAFF] hover:bg-[#79F7FF] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:bg-[#00E1EF] rounded-md"
-                  />
-                </div>
-              ) : (
-                <button onClick={() => setShowSearch(!showSearch)}>
-                  <img src="" alt="serach" />
-                </button>
-              )}
-            </li>
+
             <li>
               <a
                 href="/products"
