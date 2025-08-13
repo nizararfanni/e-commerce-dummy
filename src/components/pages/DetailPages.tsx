@@ -21,7 +21,7 @@ const DetailPages = () => {
     }
     //simpan single produk ke local storage
     localStorage.setItem("singleProduct", JSON.stringify(detailProduct));
-    navigate(`/bayar?mode=single`);
+    navigate(`/buyer/payment?mode=single`);
   };
 
   //fungsi untuk nambah ke keranjang
@@ -77,14 +77,14 @@ const DetailPages = () => {
           )}
           <div className="flex justify-center items-center py-5 gap-4 mx-auto w-32">
             <button
-              className="h-12 border-black border-2 p-2.5 bg-white hover:bg-gray-400 hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:text-white active:bg-gray-400 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+              className="h-12 border-black border-2 p-2.5 bg-white hover:bg-[#00E1EF] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:text-white active:bg-gray-400 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={handleAddToCart}
               disabled={!detailProduct}
             >
               AddToCart
             </button>
             <button
-              className="h-12 border-black border-2 p-2.5 bg-white hover:bg-gray-400 hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:text-white active:bg-gray-400 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+              className="h-12 border-black border-2 p-2.5 bg-white hover:bg-[#00E1EF] hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:text-white active:bg-gray-400 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={handleBuy}
               disabled={!isProductValid}
             >

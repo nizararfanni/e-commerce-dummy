@@ -28,6 +28,7 @@ const PaymentPage: React.FC = () => {
   >(null);
   const [urlSearchParams] = useSearchParams();
   const mode = urlSearchParams.get("mode") as ProductType["mode"];
+  console.log("mode", mode);
 
   useEffect(() => {
     //jika ada produk single
@@ -114,7 +115,11 @@ const PaymentPage: React.FC = () => {
                     Qty: {product.quantity}
                   </p>
                   <p className="text-sm font-semibold">
-                    Subtotal {total.toLocaleString("id-ID", { style: "currency", currency: "IDR" })}
+                    Subtotal{" "}
+                    {total.toLocaleString("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                    })}
                   </p>
                 </div>
               </div>

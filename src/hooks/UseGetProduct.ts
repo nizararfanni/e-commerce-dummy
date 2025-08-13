@@ -8,7 +8,7 @@ type Product = {
   images: string;
   description: string;
   category: string;
-
+  stock: number;
   rate: number;
   count: number;
 };

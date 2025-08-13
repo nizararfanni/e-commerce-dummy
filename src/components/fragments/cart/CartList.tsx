@@ -14,7 +14,7 @@ const CartList = () => {
     if (!cartContextItems.length) return;
     //simpan data  ke local storage
     localStorage.setItem("cartItems", JSON.stringify(cartContextItems));
-    navigate("/bayar");
+    navigate("/buyer/payment");
   };
 
   // {
@@ -99,7 +99,7 @@ const CartList = () => {
         </div>
       )}
       <Link
-        to={`/bayar`}
+        to={`/buyer/payment`}
         className="mt-8 text-black border-black border-2 p-2.5 bg-white hover:bg-gray-400 hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] hover:text-white active:bg-gray-400 rounded-md"
       >
         Proceed to Checkout

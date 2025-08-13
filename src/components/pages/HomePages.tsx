@@ -6,9 +6,7 @@ import { Link } from "react-router-dom";
 
 const HomePages = () => {
   const { product, isLoading } = UseGetAllProduct();
-  {
-    console.log(product);
-  }
+
   return (
     <div>
       <Hero />

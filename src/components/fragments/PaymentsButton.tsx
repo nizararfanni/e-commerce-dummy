@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 export default function PaymentsButton({ cartTotal, cardInfo }: any) {
   const [loading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
