@@ -55,7 +55,7 @@ export default function PaymentsButton({ cartTotal, cardInfo }: any) {
       <button
         onClick={handleBuy}
         type="submit"
-        className="h-12 border-black border-2 p-2.5 bg-[#A6FAFF] hover:bg-[#79F7FF] hover:shadow-[9px_9px_0px_rgba(0,0,0,10)] active:bg-[#00E1EF] rounded-md"
+        className="h-12 border-black border-2 p-2.5 text-black bg-[#A6FAFF] hover:bg-[#79F7FF] hover:shadow-[9px_9px_0px_rgba(255,255,255,10)] active:bg-[#00E1EF] rounded-md"
       >
         {loading ? "memprosess" : "bayar sekkarang"}
       </button>

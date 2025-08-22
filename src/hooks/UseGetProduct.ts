@@ -22,7 +22,7 @@ export const UseGetAllProduct = () => {
       try {
         setIsLoading(true);
         const response = await axios.get("http://localhost:4000/products");
-        console.log("isi data", response.data.products);
+        // console.log("isi data", response.data.products);
         setDetailProduct(response.data.products);
       } catch (error) {
         console.log("error cuy", error);

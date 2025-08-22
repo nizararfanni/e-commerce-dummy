@@ -5,7 +5,7 @@ const UserLayouts = () => {
   return (
     <div>
       <Header></Header>
-      <main className="pt-20">
+      <main >
         <Outlet></Outlet>
       </main>
     </div>
