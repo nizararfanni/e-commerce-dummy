@@ -16,7 +16,7 @@ import UserLayouts from "./components/layouts/UserLayouts";
 
 const App: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-700">
+    <div className="min-h-screen bg-black">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<UserLayouts />}>
