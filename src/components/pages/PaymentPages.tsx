@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PaymentsButton from "../fragments/PaymentsButton";
 import { useSearchParams } from "react-router-dom";
+import SpotlightCard from "../react-Layouts/SpotlightCard";
 
 type Product = {
   id: string;
@@ -84,7 +85,7 @@ const PaymentPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-700">
-      <div className="w-full max-w-md bg-gray-300 shadow-md rounded-lg p-6">
+      <SpotlightCard spotlightColor="rgba(0, 222, 255, 0.9)" className="w-full max-w-md bg-gray-300 shadow-md rounded-lg p-6">
         <h2 className="text-xl font-semibold mb-4 text-center">Pembayaran</h2>
 
         {/* Tampilan Produk */}
@@ -197,7 +198,7 @@ const PaymentPage: React.FC = () => {
             Pembayaran gagal. Silakan coba lagi! 😢
           </div>
         )}
-      </div>
+      </SpotlightCard>
     </div>
   );
 };

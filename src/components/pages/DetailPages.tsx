@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { UseDetailProduct } from "../../hooks/UseGetProduct";
 import { UseQuantityDispatch } from "../../hooks/UseCartItems";
+import SpotlightCard from "../react-Layouts/SpotlightCard";
 
 const DetailPages = () => {
   const { id } = useParams<{ id: string }>();
@@ -38,8 +39,11 @@ const DetailPages = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-700">
-      <div className="w-96 bg-gray-300 rounded-md  px-8 py-4  shadow-[18px_18px_0px_rgba(0,0,0,1)] grid place-content-center shadow-gray-400">
+    <div className="flex text-black justify-center items-center min-h-screen bg-gray-700">
+      <SpotlightCard
+        spotlightColor="rgba(0, 222, 255, 0.9)"
+        className="w-96 bg-white rounded-md  px-8 py-4  shadow-[18px_18px_0px_rgba(0,0,0,1)] grid place-content-center shadow-gray-400"
+      >
         <div className="flex justify-center items-center flex-col h-full">
           <h1 className="text-2xl mb-4 font-bold">{detailProduct?.name}</h1>
           {isLoading ? (
@@ -92,7 +96,7 @@ const DetailPages = () => {
             </button>
           </div>
         </div>
-      </div>
+      </SpotlightCard>
     </div>
   );
 };
